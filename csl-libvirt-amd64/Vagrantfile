@@ -1,0 +1,55 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# from https://computingforgeeks.com/using-vagrant-with-libvirt-on-linux/
+# ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+
+Vagrant.configure("2") do |config|
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.driver = "kvm"
+    libvirt.host = 'localhost'
+    libvirt.uri = 'qemu:///system'
+  end
+
+##### DEFINE VM #####
+  config.vm.provision :shell, path: "bootstrap.sh"
+  config.vm.box = "debian/bookworm64"
+  config.vm.box_check_update = false
+  config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
+  config.vm.provider :libvirt do |v|
+    v.memory = 512
+    v.memorybacking :access, :mode => "shared"
+  end
+
+  config.vm.define "server11" do |server11|
+  server11.vm.hostname = "server11.example.com"
+  server11.vm.network "forwarded_port", guest: 80, host:8011
+  server11.vm.network "forwarded_port", guest: 22, host:2211
+  server11.vm.network "forwarded_port", guest: 443, host:4311
+  server11.vm.network :private_network,
+    :ip => "10.13.37.11",
+    :libvirt__network_name => "vagrant-stream-demo",
+    :libvirt__netmask => "255.255.255.0"
+  end
+
+  config.vm.define "server12" do |server11|
+  server11.vm.hostname = "server12.example.com"
+  server11.vm.network "forwarded_port", guest: 80, host:8012
+  server11.vm.network "forwarded_port", guest: 22, host:2212
+  server11.vm.network "forwarded_port", guest: 443, host:4312
+  server11.vm.network :private_network,
+    :ip => "10.13.37.12",
+    :libvirt__network_name => "vagrant-stream-demo",
+    :libvirt__netmask => "255.255.255.0"
+  end
+
+  config.vm.define "server13" do |server11|
+  server11.vm.hostname = "server13.example.com"
+  server11.vm.network "forwarded_port", guest: 80, host:8013
+  server11.vm.network "forwarded_port", guest: 22, host:2213
+  server11.vm.network "forwarded_port", guest: 443, host:4313
+  server11.vm.network :private_network,
+    :ip => "10.13.37.13",
+    :libvirt__network_name => "vagrant-stream-demo",
+    :libvirt__netmask => "255.255.255.0"
+  end
+end
