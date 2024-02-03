@@ -1,0 +1,8 @@
+# Ignore VIm files
+*~
+.*~
+*.swp
+.*.swp
+
+# Ignore Vagrant working directories and files
+*/.vagrant
