@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+##### Libvirt options #####
+Vagrant.configure("2") do |config|
+  config.vm.provider :virtalbox do |vbox|
+  end
+
+  config.vm.synced_folder "../", "/vagrant"
+  config.vm.provider :virtualbox do |v|
+    v.memory = 512
+    v.cpus = 1
+  end
+
+##### Virtual machines options #####
+  config.vm.provision :shell, path: "../csl-common/bootstrap.sh"
+  config.vm.box = "debian/bookworm64"
+  config.vm.box_check_update = false
+
+  (11..13).each do |i|
+    config.vm.define "server#{i}" do |node|
+      node.vm.hostname = "server#{i}.example.com"
+      node.vm.network "forwarded_port", guest: 80, host:"80#{i}", protocol: "tcp", guest_ip: "10.13.37.#{i}"
+      node.vm.network "forwarded_port", guest: 22, host:"22#{i}", protocol: "tcp", guest_ip: "10.13.37.#{i}" 
+      node.vm.network "forwarded_port", guest: 443, host:"43#{i}", protocol: "tcp", guest_ip: "10.13.37.#{i}"
+      node.vm.network :private_network,
+        :ip => "10.13.37.#{i}",
+        :virtualbox__intnet => "csl-vagrant-lab",
+        :netmask => "24"
+    end
+  end
+
+end
