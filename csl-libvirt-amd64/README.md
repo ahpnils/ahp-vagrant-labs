@@ -7,10 +7,9 @@ Cet environnement est à destination de machines physiques utilisant libvirt
 comme système de virtualisation, et utilise le provider libvirt pour Vagrant.
 
 Des redirections de ports sont en place :
-- les port 22, 80 et 443 de server11 sont redirigés vers, respectivement les
-  ports 2211, 8011 et 4311 ;
-- les port 22, 80 et 443 de server12 sont redirigés vers, respectivement les
-  ports 2212, 8012 et 4312 ;
-- les port 22, 80 et 443 de server13 sont redirigés vers, respectivement les
-  ports 2213, 8013 et 4313.
-
+- les port 22, 80, 443 et 8080 de server11 sont redirigés vers, respectivement les
+  ports 2211, 8011, 4311 et 8811;
+- les port 22, 80, 443 et 8080 de server12 sont redirigés vers, respectivement les
+  ports 2211, 8012, 4312 et 8812;
+- les port 22, 80, 443 et 8080 de server13 sont redirigés vers, respectivement les
+  ports 2213, 8013, 4313 et 8813.
