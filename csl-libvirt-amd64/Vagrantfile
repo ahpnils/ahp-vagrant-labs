@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
     # too small on a desktop/laptop computer. If you have a storage pool in
     # your home directory, uncomment the following line
     # and specify the storage pool name.
-    # libvirt.storage_pool_name = 'nils-images'
+    libvirt.storage_pool_name = 'vagrant_images'
   end
 
   config.vm.synced_folder "../", "/vagrant", type: "virtiofs"
