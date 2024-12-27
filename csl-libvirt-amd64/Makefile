@@ -12,11 +12,11 @@ fedora-deps:
 	sudo virsh pool-define-as vagrant_images --type dir --target ${HOME}/libvirt/vagrant_images
 
 ubuntu-deps:
-	sudo sed -i -e 's/deb$/deb deb-src' /etc/apt/sources.list.d/ubuntu.sources
+	sudo sed -i -e "s/deb$$/deb deb-src/g" /etc/apt/sources.list.d/ubuntu.sources
 	sudo apt -y update
 	sudo apt -y install wget
 	wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-	echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+	echo "deb [arch=$$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $$(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 	sudo apt -y update 
 	sudo apt -y install vagrant qemu-kvm libvirt-daemon-system libvirt-daemon libosinfo-bin qemu-system virtiofsd
 	vagrant plugin install vagrant-libvirt
