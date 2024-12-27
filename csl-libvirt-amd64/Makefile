@@ -10,6 +10,7 @@ fedora-deps:
 	mkdir -p ${HOME}/libvirt/vagrant_images
 	chown -R qemu:qemu ${HOME}/libvirt/vagrant_images
 	sudo virsh pool-define-as vagrant_images --type dir --target ${HOME}/libvirt/vagrant_images
+	sudo virsh pool-start vagrant_images
 
 ubuntu-deps:
 	sudo sed -i -e "s/deb$$/deb deb-src/g" /etc/apt/sources.list.d/ubuntu.sources
@@ -24,7 +25,12 @@ ubuntu-deps:
 	sudo systemctl is-active libvirtd || sudo systemctl enable --now libvirtd
 	mkdir -p ${HOME}/libvirt/vagrant_images
 	sudo chown -R libvirt-qemu:kvm ${HOME}/libvirt/vagrant_images
+	# allow Qemu process to enter the home and storage pool directories
+	chmod 0755 ${HOME}
+	sudo chmod 0775 ${HOME}/libvirt/vagrant_images
+
 	sudo virsh pool-define-as vagrant_images --type dir --target ${HOME}/libvirt/vagrant_images
+	sudo virsh pool-start vagrant_images
 
 up:
 	vagrant up
