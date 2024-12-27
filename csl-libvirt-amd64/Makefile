@@ -23,7 +23,7 @@ ubuntu-deps:
 	vagrant plugin install vagrant-libvirt
 	sudo systemctl is-active libvirtd || sudo systemctl enable --now libvirtd
 	mkdir -p ${HOME}/libvirt/vagrant_images
-	chown -R libvirt-qemu:kvm ${HOME}/libvirt/vagrant_images
+	sudo chown -R libvirt-qemu:kvm ${HOME}/libvirt/vagrant_images
 	sudo virsh pool-define-as vagrant_images --type dir --target ${HOME}/libvirt/vagrant_images
 
 up:
