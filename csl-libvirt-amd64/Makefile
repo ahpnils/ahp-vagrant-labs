@@ -18,7 +18,8 @@ ubuntu-deps:
 	wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 	echo "deb [arch=$$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $$(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 	sudo apt -y update 
-	sudo apt -y install vagrant qemu-kvm libvirt-daemon-system libvirt-daemon libosinfo-bin qemu-system virtiofsd
+	sudo apt-get -y build-dep ruby-libvirt
+	sudo apt -y install vagrant qemu-kvm libvirt-daemon-system libvirt-daemon libosinfo-bin qemu-system virtiofsd libguestfs-tools libxslt-dev libxml2-dev zlib1g-dev ruby-dev
 	vagrant plugin install vagrant-libvirt
 	sudo systemctl is-active libvirtd || sudo systemctl enable --now libvirtd
 	mkdir -p ${HOME}/libvirt/vagrant_images
