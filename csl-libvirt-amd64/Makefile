@@ -37,3 +37,6 @@ up:
 
 destroy:
 	vagrant destroy -f --parallel
+
+status:
+	vagrant status
