@@ -32,7 +32,7 @@ ubuntu-deps:
 	sudo virsh pool-start vagrant_images
 
 up:
-	vagrant up
+	vagrant up --parallel
 
 destroy:
 	vagrant destroy -f --parallel
