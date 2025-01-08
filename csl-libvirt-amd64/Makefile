@@ -28,7 +28,6 @@ ubuntu-deps:
 	# allow Qemu process to enter the home and storage pool directories
 	chmod 0755 ${HOME}
 	sudo chmod 0775 ${HOME}/libvirt/vagrant_images
-
 	sudo virsh pool-define-as vagrant_images --type dir --target ${HOME}/libvirt/vagrant_images
 	sudo virsh pool-start vagrant_images
 
