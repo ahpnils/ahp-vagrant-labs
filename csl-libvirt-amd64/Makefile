@@ -58,3 +58,6 @@ destroy:
 
 status:
 	vagrant status
+
+halt:
+	vagrant halt
