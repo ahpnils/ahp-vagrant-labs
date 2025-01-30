@@ -11,8 +11,12 @@ DEBIAN_FRONTED=noninteractive apt-get update > /dev/null 2>&1
 DEBIAN_FRONTED=noninteractive apt-get -qq install -y curl wget vim > /dev/null 2>&1
 echo " done."
 
-if ! [ -L /var/www/html ]; then
-	mkdir -p /var/www
-  rm -rf /var/www/html
-  ln -fs /vagrant/csl-common/${HOSTNAME} /var/www/html
-fi
+echo -n "Shutting down and disabling unwanted services..."
+systemctl disable --now unattended-upgrades.service > /dev/null 2>&1
+echo "done."
+
+echo -n "Reactivating SSH password authentication..."
+echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/zzz_csl_tweaks.conf
+echo "MaxAuthTries 20" >> /etc/ssh/sshd_config.d/zzz_csl_tweaks.conf
+systemctl restart ssh.service > /dev/null 2>&1
+echo "done."
