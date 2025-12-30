@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
 
 ##### Virtual machines options #####
   config.vm.provision :shell, path: "../csl-common/bootstrap.sh"
-  config.vm.box = "debian/bookworm64"
+  config.vm.box = "cloud-image/debian-13"
   config.vm.box_check_update = false
 
   (11..13).each do |i|
