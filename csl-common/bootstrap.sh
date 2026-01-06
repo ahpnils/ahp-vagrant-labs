@@ -6,6 +6,10 @@ for sv_nb in 11 12 13; do
   fi
 done
 
+echo -n "Configuring shell for vagrant user..."
+chsh -s /bin/bash vagrant
+echo " done."
+
 echo -n "Installing some more packages..."
 DEBIAN_FRONTED=noninteractive apt-get update > /dev/null 2>&1
 DEBIAN_FRONTED=noninteractive apt-get -qq install -y curl wget vim > /dev/null 2>&1
