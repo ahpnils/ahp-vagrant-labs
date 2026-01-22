@@ -1,0 +1,46 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+##### Libvirt options #####
+Vagrant.configure("2") do |config|
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.driver = "kvm"
+    libvirt.cpu_mode = "host-passthrough"
+    libvirt.host = 'localhost'
+    libvirt.uri = 'qemu:///system'
+    # The default storage pool for libvirt is /var/lib/libvirt, which can be
+    # too small on a desktop/laptop computer. If you have a storage pool in
+    # your home directory, uncomment the following line
+    # and specify the storage pool name.
+    libvirt.storage_pool_name = 'vagrant_images'
+  end
+
+  # config.vm.synced_folder "../", "/vagrant", type: "virtiofs"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.provider :libvirt do |v|
+    v.cpus = 2
+    v.cputopology :sockets => '1', :cores => '1', :threads => '2'
+    v.memory = 4096
+    v.memorybacking :access, :mode => "shared"
+  end
+
+##### Virtual machines options #####
+  # config.vm.provision :shell, path: "../csl-common/bootstrap.sh"
+  config.vm.box = "cloud-image/alpine-3.23"
+  config.vm.box_check_update = false
+  # Alpine Linux does not include bash nor sudo (use sh and doas instead)
+  config.ssh.shell = "sh"
+  config.ssh.sudo_command = "doas %c"
+
+  (11..13).each do |i|
+    config.vm.define "kube#{i}" do |node|
+      node.vm.hostname = "kube#{i}.example.com"
+      # node.vm.network "forwarded_port", guest: 8080, host:"88#{i}", protocol: "tcp", guest_ip: "10.13.37.#{i}"
+      node.vm.network :private_network,
+        :ip => "10.13.38.#{i}",
+        :libvirt__network_name => "example.com",
+        :libvirt__netmask => "255.255.255.0"
+    end
+  end
+
+end
