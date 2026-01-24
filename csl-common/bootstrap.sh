@@ -2,7 +2,7 @@
 
 for sv_nb in 11 12 13; do
   if [ "${HOSTNAME}" != "server${sv_nb}" ]; then
-    echo "10.13.37.${sv_nb} server${sv_nb}.example.com server${sv_nb}" >> /etc/hosts
+    echo "10.13.37.${sv_nb} server${sv_nb}.example.com server${sv_nb} www${sv_nb}.example.com www${sv_nb} wp${sv_nb}.example.com wp${sv_nb}" >> /etc/hosts
   fi
 done
 
