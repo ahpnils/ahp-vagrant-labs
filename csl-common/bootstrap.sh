@@ -12,7 +12,8 @@ echo " done."
 
 echo -n "Installing some more packages..."
 DEBIAN_FRONTED=noninteractive apt-get update > /dev/null 2>&1
-DEBIAN_FRONTED=noninteractive apt-get -qq install -y curl wget vim > /dev/null 2>&1
+DEBIAN_FRONTED=noninteractive apt-get -qq -y upgrade> /dev/null 2>&1
+DEBIAN_FRONTED=noninteractive apt-get -qq install -y curl wget vim nano lsof > /dev/null 2>&1
 echo " done."
 
 echo -n "Shutting down and disabling unwanted services..."
